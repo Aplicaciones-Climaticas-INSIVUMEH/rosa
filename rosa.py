@@ -70,7 +70,7 @@ def get_name_from_degree(angle:float) -> int:
         predo=360
     return predo
 
-def get_degree_value(angle_1:float,angle_2:float,angle_3:float) -> float:
+def get_degree_value(angle_1:float,angle_2:float,angle_3:float) -> tuple:
     """Returns the angle following the wind rose procedure.
 
     Parameters
@@ -84,8 +84,10 @@ def get_degree_value(angle_1:float,angle_2:float,angle_3:float) -> float:
 
     Returns
     -------
-    float
-        Angle following the wind rose procedure
+    tuple
+        Tuple containing the following:
+        * Angle following the wind rose procedure
+        * Discretized angle
     """
 
     if not (0 <= angle_1 <= 360):
@@ -131,7 +133,7 @@ def get_degree_value(angle_1:float,angle_2:float,angle_3:float) -> float:
             return mean_angle,get_name_from_degree(mean_angle)
 
     if np.nan in angles_list:
-        return np.nan
+        return np.nan, np.nan
     
     else:
 
