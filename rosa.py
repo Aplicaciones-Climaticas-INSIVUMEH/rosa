@@ -5,6 +5,7 @@
 # date: 2023-03-16
 
 import numpy as np
+import pandas as pd
 
 def get_angle_diff_and_mean(angle_1:float,angle_2:float) -> tuple:
     """Returns the min difference between angles and its mean inside this arc.
@@ -157,3 +158,30 @@ def get_degree_value(angle_1:float,angle_2:float,angle_3:float) -> tuple:
         else:
             return three_angles(angle_1,angle_2,angle_3)
                 
+def get_df_column(df:pd.DataFrame,colnames = ['dir_viento_7:00','dir_viento_13:00','dir_viento_18:00']) -> pd.Series:
+    """Generates a pandas.core.series.Series object with the contents of a column of the input DataFrame based on the three columns passed on colnames.
+
+    Parameters
+    ----------
+    df : pd.DataFrame
+        Input DataFrame
+    colnames : list, optional
+        List of names asociated with the three angles columns in the DataFrame, by default ['dir_viento_7:00','dir_viento_13:00','dir_viento_18:00']
+
+    Returns
+    -------
+    pd.Series
+        Returns a Series object which you can asociate with the original dataframe as follows:
+
+        ```python
+        import pandas as pd
+        import rosa
+
+        df:pd.DataFrame
+
+        df['dir_final'] = get_df_column(df)
+        ```
+    """
+    dir_final = df.apply(lambda row: get_degree_value(row[colnames[0]],row[colnames[1]],row[colnames[2]])[1],axis=1)
+    return dir_final
+
